@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 const pckg = require('./package.json')
 const config = require('./config')
+const koaBody = require('koa-body')
+const shortestword = require('./server/api/shortestword');
 
 /* Middlewares */
 const main = require('./server/main')
@@ -28,10 +30,26 @@ render(app, {
 app.use(static('public/js'))
 app.use(static('public/css'))
 
+app.use(async function (ctx, next) {
+  try {
+    return await next()
+  } catch (err) {
+    if (ctx.header['content-type'] === 'application/json') {
+      ctx.type = 'application/json'
+      ctx.status = +(err.status)
+      ctx.body = {
+        message: err.message
+      }
+    }
+  }
+})
+app.use(koaBody());
 router
   .get('/', main.render)
 
-  app
+router.post('/api/shortestword',shortestword.method);
+
+app
   .use(router.routes())
   .use(router.allowedMethods())
 
