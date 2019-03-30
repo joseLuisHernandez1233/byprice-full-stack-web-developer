@@ -7,10 +7,11 @@ const path = require('path')
 const pckg = require('./package.json')
 const config = require('./config')
 const koaBody = require('koa-body')
-const shortestword = require('./server/api/shortestword');
 
 /* Middlewares */
 const main = require('./server/main')
+const shortestWordServices = require('./server/api/shortestword');
+const userServices = require('./server/api/user');
 
 const app = new Koa()
 const router = new Router()
@@ -44,10 +45,12 @@ app.use(async function (ctx, next) {
   }
 })
 app.use(koaBody());
+
+router.post('/api/shortestword', shortestWordServices.method);
+router.post('/api/users', userServices.createUser);
+router.get('/api/users', userServices.users);
 router
   .get('/', main.render)
-
-router.post('/api/shortestword',shortestword.method);
 
 app
   .use(router.routes())
@@ -57,14 +60,6 @@ if (module.parent) {
   module.exports = app
 } else {
   mongoose.connection.once('open', () => {
-    router
-      .get('/', main.render)
-
-    app
-      .use(router.routes())
-      .use(router.allowedMethods())
-
-
     app.listen(config.port, function () {
       console.info('process.env.NODE_ENV', process.env.NODE_ENV)
       console.info('version', pckg.version)

@@ -24,6 +24,7 @@
   "homepage": "https://github.com/ByPrice/byprice-full-stack-web-developer#readme",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "bcrypt-nodejs": "0.0.3",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
     "koa-ejs": "^4.2.0",
