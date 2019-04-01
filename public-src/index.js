@@ -1,12 +1,9 @@
-/*
- * Your react code here
-  import React from 'react'
-  import { render } from 'react-dom'
-  import Users from './components/user'
+import React from 'react'
+import { render } from 'react-dom'
+import SentenceContainer from './components/sentence.container'
 
-  const rootEl = document.getElementById('UserTodo')
+const rootEl = document.getElementById('SentenceContainer')
 
-  render(<Users />, rootEl)
+render(<SentenceContainer />, rootEl)
 
-  if (module.hot) module.hot.accept()
-*/
+if (module.hot) module.hot.accept()

@@ -10,15 +10,15 @@ describe('Users', function () {
       .post('/api/users')
       .send(user)
       .set('Accept', 'application/json')
-      .expect(/John Doe/)
       .expect(200)
+      .expect(/John Doe/)
       .then(async res => {
         const User = require('../server/models/users')
         await User.remove({ _id: res.body._id })
       })
       .catch(err => {
         console.error(err);
-        throw err; // Re-throw the error if the test should fail when an error happens
+        throw err;
       });
   })
   it('Should return a user array', async function () {
